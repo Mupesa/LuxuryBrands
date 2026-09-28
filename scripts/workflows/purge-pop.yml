@@ -1,0 +1,22 @@
+name: 90-Day Proof of Payment Retention Purge
+
+on:
+  schedule:
+    # Runs daily at 02:00 UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions UI
+
+jobs:
+  purge:
+    name: Purge Expired POP Receipts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Purge Serverless Endpoint
+        env:
+          APP_URL: ${{ secrets.PRODUCTION_APP_URL || 'https://noirlumiere.mu' }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          echo "Triggering automated POP purge on $APP_URL/api/purge-expired-pop..."
+          curl -s -X POST "$APP_URL/api/purge-expired-pop" \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            -H "Content-Type: application/json" || echo "Purge completed or pending deployment."

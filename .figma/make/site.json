@@ -1,0 +1,10 @@
+{
+  "description": "Offers a curated luxury shopping experience with exclusive boutique products, enabling users to browse and purchase high-end fashion effortlessly.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
