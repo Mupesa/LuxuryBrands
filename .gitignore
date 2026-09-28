@@ -21,3 +21,6 @@ logs/
 /.plugins/
 /.opencode-skills/
 .neon
+
+.vercel
+.env*
