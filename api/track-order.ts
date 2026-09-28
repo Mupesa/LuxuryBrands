@@ -22,10 +22,9 @@ export default async function handler(req: any, res: any) {
 
     const sql = neon(dbUrl)
     const orders = (await sql`
-      SELECT id, order_ref, customer_name, customer_email, delivery_city,
-             delivery_address, payment_method, payment_status, fulfillment_status,
-             subtotal_mur, delivery_fee_mur, total_mur, tracking_number,
-             courier_name, estimated_delivery, created_at, updated_at
+      SELECT id, order_ref, customer_name, customer_email, customer_phone, delivery_city,
+             delivery_address, delivery_notes, payment_method, payment_status, order_status,
+             subtotal_mur, delivery_fee_mur, total_mur, created_at, updated_at
       FROM app.orders
       WHERE UPPER(order_ref) = ${orderRef}
     `) as any[]
@@ -40,7 +39,7 @@ export default async function handler(req: any, res: any) {
     }
 
     const items = (await sql`
-      SELECT id, slug, name, size, quantity, unit_price_mur, total_price_mur, image_url
+      SELECT id, product_slug AS slug, product_name AS name, size, quantity, unit_price_mur, total_price_mur, image_url
       FROM app.order_items
       WHERE order_id = ${order.id}
     `) as any[]
